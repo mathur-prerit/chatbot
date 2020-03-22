@@ -1,292 +1,332 @@
-<style>
+<script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+	crossorigin="anonymous"></script>
 
+<style>
 	/* snitch code */
 
- .snitch-master{
-    position: fixed;
-    top: 90%;
-    left: 90%;
-    z-index: 10;
-    }
-
- .input {
-	 display: none;
-}
-
- .snitch {
-	 position: relative;
-	 text-align: center;
-	 width: 3rem;
-	 height: 3rem;
-	 cursor: pointer;
-}
- .snitch .obj {
-	 position: relative;
-	 width: 100%;
-	 height: 100%;
-	 top: 0;
-	 transition: all ease 0.5s;
-	 z-index: 1;
-}
- #animate:checked + label .snitch .obj {
-	 top: -2em;
-	 animation: hover ease-in-out 1.5s infinite;
-}
- .snitch .obj .body {
-	 position: relative;
-	 overflow: hidden;
-	 width: 100%;
-	 height: 100%;
-	 border-radius: 50%;
-	 background: #efbf65;
-	 border: solid 2px #3c2e2d;
-	 /* border-width: 0.62em; */
-}
- .snitch .obj .body .flourish {
-	 border: solid 2px #3c2e2d;
-	 background: #efbf65;
-}
- .snitch .obj .body .flourish:nth-child(1) {
-	 position: absolute;
-	 top: -30%;
-	 left: 0;
-	 border-radius: 50%;
-	 width: 100%;
-	 height: 60%;
-	 z-index: 10;
-}
- .snitch .obj .body .flourish:nth-child(2) {
-	 position: absolute;
-	 top: 7.5%;
-	 left: -38%;
-	 border-radius: 50%;
-	 width: 90%;
-	 height: 52%;
-	 z-index: 9;
-}
- .snitch .obj .body .flourish:nth-child(3) {
-	 position: absolute;
-	 top: 7.5%;
-	 right: -38%;
-	 border-radius: 50%;
-	 width: 90%;
-	 height: 52%;
-	 z-index: 9;
-}
- .snitch .obj .body .flourish:nth-child(4) {
-	 overflow: hidden;
-	 position: absolute;
-	 bottom: -15%;
-	 right: -26%;
-	 border-radius: 50%;
-	 width: 70%;
-	 height: 60%;
-	 z-index: 9;
-}
- .snitch .obj .body .flourish:nth-child(5) {
-	 overflow: hidden;
-	 position: absolute;
-	 bottom: -15%;
-	 left: -26%;
-	 border-radius: 50%;
-	 width: 70%;
-	 height: 60%;
-	 z-index: 9;
-}
- .snitch .obj .body .flourish .lines {
-	 position: absolute;
-	 right: 0;
-	 top: 3px;
-	 width: 100%;
-	 height: 2px;
-	 background: #3c2e2d;
-}
- .snitch .obj .body .flourish .lines:nth-child(2) {
-	 top: 7px;
-}
- .snitch .obj .body .flourish .lines:nth-child(3) {
-	 top: 11px;
-}
- .snitch .obj .wing {
-	 position: absolute;
-	 text-align: right;
-	 line-height: 0;
-	 top: -45%;
-	 left: -115%;
-	 width: 120%;
-	 height: 60%;
-	 transform-origin: bottom right;
-}
- .snitch .obj .r.wing {
-	 text-align: left;
-	 left: auto;
-	 right: -115%;
-	 transform-origin: bottom left;
-}
- #animate:checked + label .snitch .obj .wing {
-	 animation: flap-left ease-in-out 0.15s infinite;
-}
- #animate:checked + label .snitch .obj .r.wing {
-	 animation: flap-right ease-in-out 0.15s infinite;
-}
- .snitch .obj .joint {
-	 position: absolute;
-	 top: 8%;
-	 left: 3%;
-	 width: 22%;
-	 height: 22%;
-	 border-radius: 50%;
-	 background: #efbf65;
-	 border: solid 2px #3c2e2d;
-	 /* border-width: 0.62em; */
-	 z-index: 11;
-}
- .snitch .obj .r.joint {
-	 left: auto;
-	 right: 3%;
-}
- .snitch .obj .wing .feather {
-	 display: inline-block;
-	 width: 100%;
-	 height: 40%;
-	 margin-top: -1px;
-	 background: #fdfce6;
-	 border: solid 2px #3c2e2d;
-	 /* border-width: 0.62em; */
-	 border-radius: 0 4em 0 4em;
-}
- .snitch .obj .wing .feather:nth-child(2) {
-	 height: 33%;
-	 width: 85%;
-	 border-top: none;
-	 border-radius: 0 0 0 4em;
-}
- .snitch .obj .wing .feather:nth-child(3) {
-	 height: 33%;
-	 width: 70%;
-	 border-radius: 0 0 0 4em;
-	 border-top: none;
-}
- .snitch .obj .r.wing .feather {
-	 border-radius: 0 0 4em 0;
-}
- .snitch .obj .r.wing .feather:nth-child(1) {
-	 border-radius: 4em 0 4em 0;
-}
- .snitch .shadow {
-	 position: absolute;
-	 bottom: 0;
-	 left: calc(50% - 0%);
-	 height: 0;
-	 width: 0;
-	 background: #3c2e2d;
-	 opacity: 1;
-	 border-radius: 50%;
-	 z-index: 0;
-	 transition: all ease 0.5s;
-}
- #animate:checked + label .snitch .shadow {
-	 opacity: 0.65;
-	 height: 10%;
-	 left: calc(50% - 25%);
-	 width: 50%;
-	 animation: shadow-hover ease-in-out 1.5s infinite;
-}
- @keyframes flap-left {
-	 50% {
-		 transform: rotate(-40deg) scaley(0.6);
+	.snitch-master {
+		position: fixed;
+		top: 90%;
+		left: 90%;
+		z-index: 10;
 	}
-}
- @keyframes flap-right {
-	 50% {
-		 transform: rotate(40deg) scaley(0.6);
-	}
-}
- @keyframes hover {
-	 50% {
-		 transform: translatey(-1.2em);
-	}
-}
- @keyframes shadow-hover {
-	 50% {
-		 transform: scale(1.1);
-		 opacity: 0.5;
-	}
-}
 
-.snitch-chat{
-    z-index: 2;
-    width:15%;
-    height: 15%;
-}
+	.expanded{
+		position: fixed;
+		top: 70%;
+		left: 90%;
+		z-index: 10;
 
-/* snitch code ends here-------------------------------------------------------------------------- */
+	}
 
+	.input {
+		display: none;
+	}
+
+	.snitch {
+		position: relative;
+		text-align: center;
+		width: 3rem;
+		height: 3rem;
+		cursor: pointer;
+	}
+
+	.snitch .obj {
+		position: relative;
+		width: 100%;
+		height: 100%;
+		top: 0;
+		transition: all ease 0.5s;
+		z-index: 1;
+	}
+
+	#animate:checked+label .snitch .obj {
+		top: -2em;
+		animation: hover ease-in-out 1.5s infinite;
+	}
+
+	.snitch .obj .body {
+		position: relative;
+		overflow: hidden;
+		width: 100%;
+		height: 100%;
+		border-radius: 50%;
+		background: #efbf65;
+		border: solid 2px #3c2e2d;
+		/* border-width: 0.62em; */
+	}
+
+	.snitch .obj .body .flourish {
+		border: solid 2px #3c2e2d;
+		background: #efbf65;
+	}
+
+	.snitch .obj .body .flourish:nth-child(1) {
+		position: absolute;
+		top: -30%;
+		left: 0;
+		border-radius: 50%;
+		width: 100%;
+		height: 60%;
+		z-index: 10;
+	}
+
+	.snitch .obj .body .flourish:nth-child(2) {
+		position: absolute;
+		top: 7.5%;
+		left: -38%;
+		border-radius: 50%;
+		width: 90%;
+		height: 52%;
+		z-index: 9;
+	}
+
+	.snitch .obj .body .flourish:nth-child(3) {
+		position: absolute;
+		top: 7.5%;
+		right: -38%;
+		border-radius: 50%;
+		width: 90%;
+		height: 52%;
+		z-index: 9;
+	}
+
+	.snitch .obj .body .flourish:nth-child(4) {
+		overflow: hidden;
+		position: absolute;
+		bottom: -15%;
+		right: -26%;
+		border-radius: 50%;
+		width: 70%;
+		height: 60%;
+		z-index: 9;
+	}
+
+	.snitch .obj .body .flourish:nth-child(5) {
+		overflow: hidden;
+		position: absolute;
+		bottom: -15%;
+		left: -26%;
+		border-radius: 50%;
+		width: 70%;
+		height: 60%;
+		z-index: 9;
+	}
+
+	.snitch .obj .body .flourish .lines {
+		position: absolute;
+		right: 0;
+		top: 3px;
+		width: 100%;
+		height: 2px;
+		background: #3c2e2d;
+	}
+
+	.snitch .obj .body .flourish .lines:nth-child(2) {
+		top: 7px;
+	}
+
+	.snitch .obj .body .flourish .lines:nth-child(3) {
+		top: 11px;
+	}
+
+	.snitch .obj .wing {
+		position: absolute;
+		text-align: right;
+		line-height: 0;
+		top: -45%;
+		left: -115%;
+		width: 120%;
+		height: 60%;
+		transform-origin: bottom right;
+	}
+
+	.snitch .obj .r.wing {
+		text-align: left;
+		left: auto;
+		right: -115%;
+		transform-origin: bottom left;
+	}
+
+	#animate:checked+label .snitch .obj .wing {
+		animation: flap-left ease-in-out 0.15s infinite;
+	}
+
+	#animate:checked+label .snitch .obj .r.wing {
+		animation: flap-right ease-in-out 0.15s infinite;
+	}
+
+	.snitch .obj .joint {
+		position: absolute;
+		top: 8%;
+		left: 3%;
+		width: 22%;
+		height: 22%;
+		border-radius: 50%;
+		background: #efbf65;
+		border: solid 2px #3c2e2d;
+		/* border-width: 0.62em; */
+		z-index: 11;
+	}
+
+	.snitch .obj .r.joint {
+		left: auto;
+		right: 3%;
+	}
+
+	.snitch .obj .wing .feather {
+		display: inline-block;
+		width: 100%;
+		height: 40%;
+		margin-top: -1px;
+		background: #fdfce6;
+		border: solid 2px #3c2e2d;
+		/* border-width: 0.62em; */
+		border-radius: 0 4em 0 4em;
+	}
+
+	.snitch .obj .wing .feather:nth-child(2) {
+		height: 33%;
+		width: 85%;
+		border-top: none;
+		border-radius: 0 0 0 4em;
+	}
+
+	.snitch .obj .wing .feather:nth-child(3) {
+		height: 33%;
+		width: 70%;
+		border-radius: 0 0 0 4em;
+		border-top: none;
+	}
+
+	.snitch .obj .r.wing .feather {
+		border-radius: 0 0 4em 0;
+	}
+
+	.snitch .obj .r.wing .feather:nth-child(1) {
+		border-radius: 4em 0 4em 0;
+	}
+
+	.snitch .shadow {
+		position: absolute;
+		bottom: 0;
+		left: calc(50% - 0%);
+		height: 0;
+		width: 0;
+		background: #3c2e2d;
+		opacity: 1;
+		border-radius: 50%;
+		z-index: 0;
+		transition: all ease 0.5s;
+	}
+
+	#animate:checked+label .snitch .shadow {
+		opacity: 0.65;
+		height: 10%;
+		left: calc(50% - 25%);
+		width: 50%;
+		animation: shadow-hover ease-in-out 1.5s infinite;
+	}
+
+	@keyframes flap-left {
+		50% {
+			transform: rotate(-40deg) scaley(0.6);
+		}
+	}
+
+	@keyframes flap-right {
+		50% {
+			transform: rotate(40deg) scaley(0.6);
+		}
+	}
+
+	@keyframes hover {
+		50% {
+			transform: translatey(-1.2em);
+		}
+	}
+
+	@keyframes shadow-hover {
+		50% {
+			transform: scale(1.1);
+			opacity: 0.5;
+		}
+	}
+
+	.snitch-chat {
+		z-index: 2;
+		width: 15%;
+		height: 15%;
+		border: 2px solid black;
+	}
+
+	/* snitch code ends here-------------------------------------------------------------------------- */
 </style>
 
 <body>
 
 
 	<!-- snitch code--------------------------------------------------------------------- -->
-    <div class=snitch-master>
-        <input type="checkbox" class="input" name="checkbox" id="animate" checked>
-        <label for='animate'>
-        <div class='snitch'>
-            <div class='obj'>
-            <div class='body'>
-                <div class='flourish'></div>
-                <div class='flourish'></div>
-                <div class='flourish'></div>
-                <div class='flourish'>
-                <div class='lines'></div>
-                <div class='lines'></div>
-                <div class='lines'></div>
-                </div>
-                <div class='flourish'>
-                <div class='lines'></div>
-                <div class='lines'></div>
-                <div class='lines'></div>
-                </div>
-            </div>
-            <div class='l joint'></div>
-            <div class='l wing'>
-                <div class='feather'></div>
-                <div class='feather'></div>
-                <div class='feather'></div>
-            </div>
-            <div class='r joint'></div>
-            <div class='r wing'>
-                <div class='feather'></div>
-                <div class='feather'></div>
-                <div class='feather'></div>
-            </div>
-            </div>
-            <div class='shadow'></div>
-        </div>
-        </label>
-        <div class='snitch-chat'></div>
-    </div>
+	<div class=snitch-master>
+		<input type="checkbox" class="input" name="checkbox" id="animate" checked>
+		<label for='animate'>
+			<div class='snitch'>
+				<div class='obj'>
+					<div class='body'>
+						<div class='flourish'></div>
+						<div class='flourish'></div>
+						<div class='flourish'></div>
+						<div class='flourish'>
+							<div class='lines'></div>
+							<div class='lines'></div>
+							<div class='lines'></div>
+						</div>
+						<div class='flourish'>
+							<div class='lines'></div>
+							<div class='lines'></div>
+							<div class='lines'></div>
+						</div>
+					</div>
+					<div class='l joint'></div>
+					<div class='l wing'>
+						<div class='feather'></div>
+						<div class='feather'></div>
+						<div class='feather'></div>
+					</div>
+					<div class='r joint'></div>
+					<div class='r wing'>
+						<div class='feather'></div>
+						<div class='feather'></div>
+						<div class='feather'></div>
+					</div>
+				</div>
+				<div class='shadow'></div>
+			</div>
+		</label>
+		<!-- <div class='snitch-chat'></div> -->
+	</div>
 
-<!-- snitch code ends here=============================================================== -->
+	<!-- snitch code ends here=============================================================== -->
 </body>
 
 
 <script type="text/javascript">
-	
 
-	    // snitch code===========================================================================================
-    $('#animate').click(function (){
-        if($(this).is(':checked')){
-            console.log('checked')
-        }
-        else if($(this).is(':not(:checked)')){
-            console.log('unchecked')
-        }
-        })
+
+	// snitch code===========================================================================================
+	$('#animate').click(function () {
+		if ($(this).is(':checked')) {
+			console.log('checked')
+			$('.snitch-master').toggleClass('expanded');
+		}
+		else if ($(this).is(':not(:checked)')) {
+			console.log('unchecked')
+			$('.snitch-master').toggleClass('expanded');
+		}
+	})
 
 
 
 
     // snitch code ends here===========================================================================================
 </script>
-
